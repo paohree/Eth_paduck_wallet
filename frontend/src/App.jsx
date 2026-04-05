@@ -4,6 +4,7 @@
 import { useState } from "react";
 import AddressInput from "./components/AddressInput";
 import BalanceDisplay from "./components/BalanceDisplay";
+import TestPanel from "./components/TestPanel";
 import { fetchBalance } from "./services/api";
 
 export default function App() {
@@ -58,6 +59,8 @@ export default function App() {
 
         {!isLoading && <BalanceDisplay result={result} error={error} />}
       </main>
+
+      <TestPanel />
 
       <footer className="app-footer">
         Ethereum Sepolia Testnet
