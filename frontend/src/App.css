@@ -11,9 +11,26 @@ body {
   background: #18191a;
   color: #ffffff;
   min-height: 100vh;
+}
+
+/* 좌우 2단 레이아웃 */
+.page-layout {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  gap: 32px;
+  padding: 48px 24px;
+  min-height: 100vh;
+}
+
+/* 오른쪽 테스트 패널 컨테이너 */
+.test-container {
+  width: 360px;
+  background: #24272a;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  flex-shrink: 0;
 }
 
 /* ──────────────────────────────────────
@@ -25,6 +42,7 @@ body {
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  flex-shrink: 0;
 }
 
 /* ──────────────────────────────────────

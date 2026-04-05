@@ -4,6 +4,8 @@
 import { useState } from "react";
 
 const TEST_ADDRESS = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045";
+// 캐시 테스트 전용 주소. 검증 테스트와 다른 주소를 써야 캐시 오염 없이 테스트 가능.
+const CACHE_TEST_ADDRESS = "0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B";
 
 // 개별 테스트 케이스 정의
 const VALIDATION_TESTS = [
@@ -81,7 +83,7 @@ export default function TestPanel() {
     setRunning("cache");
     setCacheResults({});
 
-    const first = await callApi(TEST_ADDRESS);
+    const first = await callApi(CACHE_TEST_ADDRESS);
     setCacheResults(prev => ({
       ...prev,
       first: {
@@ -93,7 +95,7 @@ export default function TestPanel() {
 
     await new Promise(r => setTimeout(r, 300));
 
-    const second = await callApi(TEST_ADDRESS);
+    const second = await callApi(CACHE_TEST_ADDRESS);
     setCacheResults(prev => ({
       ...prev,
       second: {
@@ -134,12 +136,15 @@ export default function TestPanel() {
 
       {/* 입력값 검증 */}
       <div style={{ marginBottom: 20 }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
           <span style={{ fontSize: "0.82rem", fontWeight: 600, color: "#d6d9dc" }}>입력값 검증</span>
           <button onClick={runValidationTests} disabled={!!running} style={btnStyle}>
             {running === "validation" ? "테스트 중..." : "실행"}
           </button>
         </div>
+        <p style={{ fontSize: "0.75rem", color: "#848c96", marginBottom: 8, lineHeight: 1.5 }}>
+          Alchemy 호출 전에 주소 형식을 검증한다. 잘못된 주소는 400을 반환하고 API 한도를 소모하지 않는다.
+        </p>
         {VALIDATION_TESTS.map(t => (
           <ResultRow key={t.id} label={t.label} result={validationResults[t.id]} />
         ))}
@@ -147,12 +152,15 @@ export default function TestPanel() {
 
       {/* 캐싱 */}
       <div style={{ marginBottom: 20 }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
           <span style={{ fontSize: "0.82rem", fontWeight: 600, color: "#d6d9dc" }}>캐싱</span>
           <button onClick={runCacheTest} disabled={!!running} style={btnStyle}>
             {running === "cache" ? "테스트 중..." : "실행"}
           </button>
         </div>
+        <p style={{ fontSize: "0.75rem", color: "#848c96", marginBottom: 8, lineHeight: 1.5 }}>
+          같은 주소를 반복 조회할 때 Alchemy를 다시 호출하지 않는다. TTL 30초 동안 캐시된 결과를 반환한다.
+        </p>
         <ResultRow
           label="첫 번째 요청 → cached: false"
           result={cacheResults.first ? { ...cacheResults.first, status: cacheResults.first.status } : null}
@@ -165,15 +173,25 @@ export default function TestPanel() {
 
       {/* Rate Limiting */}
       <div>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
           <span style={{ fontSize: "0.82rem", fontWeight: 600, color: "#d6d9dc" }}>Rate Limiting</span>
           <button onClick={runRateLimitTest} disabled={!!running} style={{ ...btnStyle, background: "#7f1d1d", borderColor: "#991b1b" }}>
             {running === "rateLimit" ? "테스트 중..." : "⚠️ 실행"}
           </button>
         </div>
-        <p style={{ fontSize: "0.72rem", color: "#f97316", marginBottom: 8 }}>
-          ⚠️ 실행 후 약 1분간 조회가 차단됩니다.
+
+        {/* 설명 */}
+        <p style={{ fontSize: "0.75rem", color: "#848c96", marginBottom: 6, lineHeight: 1.5 }}>
+          IP 기준으로 1분에 10회 초과 시 429를 반환한다. 로그인 없는 서비스에서 사용자를 식별할 수 있는 유일한 수단이 IP이기 때문이다.
         </p>
+
+        {/* 경고 */}
+        <div style={{ background: "#2a1a0a", border: "1px solid #92400e", borderRadius: 6, padding: "8px 10px", marginBottom: 10 }}>
+          <p style={{ fontSize: "0.72rem", color: "#f97316", lineHeight: 1.5 }}>
+            ⚠️ IP 기반 차단입니다. 실행 후 약 1분간 <strong>이 기기에서의 잔액 조회가 차단</strong>됩니다.
+          </p>
+        </div>
+
         <ResultRow
           label="연속 요청 → 429 수신 확인"
           result={rateLimitResult ? { status: 429, pass: rateLimitResult.pass } : null}

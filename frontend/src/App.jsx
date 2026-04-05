@@ -33,38 +33,44 @@ export default function App() {
   }
 
   return (
-    <div className="app-container">
-      <header className="app-header">
-        <div className="header-left">
-          <span className="duck-icon">🐥</span>
-          <span className="app-title">Paduck Wallet</span>
-        </div>
-        <span className="network-badge">Sepolia</span>
-      </header>
+    <div className="page-layout">
+      {/* 왼쪽: 지갑 UI */}
+      <div className="app-container">
+        <header className="app-header">
+          <div className="header-left">
+            <span className="duck-icon">🐥</span>
+            <span className="app-title">Paduck Wallet</span>
+          </div>
+          <span className="network-badge">Sepolia</span>
+        </header>
 
-      <div className="account-section">
-        <div className="account-avatar">🐥</div>
-        <p className="account-label">지갑 주소를 입력해 잔액을 조회하세요</p>
+        <div className="account-section">
+          <div className="account-avatar">🐥</div>
+          <p className="account-label">지갑 주소를 입력해 잔액을 조회하세요</p>
+        </div>
+
+        <main className="app-main">
+          <AddressInput onSearch={handleSearch} isLoading={isLoading} />
+
+          {isLoading && (
+            <div className="loading-indicator" aria-live="polite">
+              <div className="spinner" />
+              <span>잔액을 조회하는 중...</span>
+            </div>
+          )}
+
+          {!isLoading && <BalanceDisplay result={result} error={error} />}
+        </main>
+
+        <footer className="app-footer">
+          Ethereum Sepolia Testnet
+        </footer>
       </div>
 
-      <main className="app-main">
-        <AddressInput onSearch={handleSearch} isLoading={isLoading} />
-
-        {isLoading && (
-          <div className="loading-indicator" aria-live="polite">
-            <div className="spinner" />
-            <span>잔액을 조회하는 중...</span>
-          </div>
-        )}
-
-        {!isLoading && <BalanceDisplay result={result} error={error} />}
-      </main>
-
-      <TestPanel />
-
-      <footer className="app-footer">
-        Ethereum Sepolia Testnet
-      </footer>
+      {/* 오른쪽: 테스트 패널 */}
+      <div className="test-container">
+        <TestPanel />
+      </div>
     </div>
   );
 }
