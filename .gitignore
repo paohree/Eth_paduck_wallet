@@ -1,1 +1,22 @@
 secret/
+
+# 환경변수 (API 키 포함)
+.env
+backend/.env
+
+# 의존성
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# Vite 빌드 산출물
+frontend/dist/
+frontend/.vite/
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# 에디터
+.vscode/
+.idea/
