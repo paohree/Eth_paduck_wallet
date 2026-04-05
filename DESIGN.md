@@ -269,7 +269,7 @@ res.status(500).json({ error: error.message });
 
 ## 7. CORS 설정
 
-프론트엔드(Vite, `localhost:5173`)와 백엔드(`localhost:5000`)는 다른 출처(Origin)다.
+프론트엔드(Vite, `localhost:5173`)와 백엔드(`localhost:5001`)는 다른 출처(Origin)다.
 브라우저는 보안상 다른 출처의 API를 기본으로 차단한다(Same-Origin Policy).
 
 **개발 환경**: Vite proxy(`vite.config.js`)가 `/api` 요청을 백엔드로 전달하여 CORS 문제를 우회한다.
