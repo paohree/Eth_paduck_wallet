@@ -19,7 +19,7 @@ Ethereum Sepolia 테스트넷 지갑 잔액 조회 서비스.
 
 **잔액 조회 결과 — 최신 데이터 여부(캐시)와 함께 표시**
 
-![잔액 조회](screenshot/3.png)
+![잔액 조회](screenshot/3v2.png)
 
 **테스트 완료 — 입력값 검증/캐싱 PASS, Rate Limiting 작동 확인 후 IP 차단된 상태**
 
