@@ -7,6 +7,26 @@ Ethereum Sepolia 테스트넷 지갑 잔액 조회 서비스.
 
 ---
 
+## 화면
+
+**첫 화면 — 지갑 주소 입력 / 오른쪽에 보호 레이어 테스트 패널**
+
+![첫 화면](screenshot/1.png)
+
+**Etherscan — 조회에 사용한 예시 지갑 주소의 온체인 상태**
+
+![Etherscan](screenshot/2.png)
+
+**잔액 조회 결과 — 최신 데이터 여부(캐시)와 함께 표시**
+
+![잔액 조회](screenshot/3.png)
+
+**테스트 완료 — 입력값 검증/캐싱 PASS, Rate Limiting 작동 확인 후 IP 차단된 상태**
+
+![테스트 완료](screenshot/4.png)
+
+---
+
 ## 이 프로젝트를 만든 과정
 
 ### 시작: 뭘 모르는지도 몰랐다
